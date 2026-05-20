@@ -1,0 +1,256 @@
+
+<h2 class="sr-only">백엔드 아키텍처 패턴별 폴더 구조 탐색기 — 6가지 패턴을 선택해 폴더 구조와 장단점을 확인하세요.</h2>
+<style>
+*{box-sizing:border-box}
+.aw{display:flex;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;min-height:520px}
+.asb{width:204px;flex-shrink:0;border-right:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);padding:10px 8px;overflow-y:auto}
+.asbh{font-size:10px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;margin-bottom:8px}
+.apb{display:block;width:100%;text-align:left;padding:8px 10px;border-radius:var(--border-radius-md);border:0.5px solid transparent;background:none;cursor:pointer;font-family:var(--font-sans);transition:background .1s,border-color .1s;margin-bottom:4px}
+.apb:hover{background:var(--color-background-primary)}
+.apb.active{background:var(--color-background-primary);border-color:var(--color-border-secondary)}
+.apbn{display:block;font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.apbe{display:block;font-size:10.5px;color:var(--color-text-tertiary);margin-top:1px}
+.apbt{display:inline-block;font-size:10px;padding:1px 7px;border-radius:20px;margin-top:4px}
+.ac{flex:1;padding:18px 20px;overflow:auto}
+.ach{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.act{font-size:15px;font-weight:500;color:var(--color-text-primary)}
+.acb{font-size:11px;padding:2px 10px;border-radius:20px}
+.ace{font-size:11px;color:var(--color-text-tertiary);font-family:var(--font-mono);margin-bottom:10px}
+.acd{font-size:13px;color:var(--color-text-secondary);line-height:1.65;margin-bottom:12px}
+.acw{font-size:12px;padding:8px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-bottom:14px;color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary)}
+.tree{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px;border:0.5px solid var(--color-border-tertiary);margin-bottom:12px;overflow-x:auto;white-space:pre;font-family:var(--font-mono);font-size:11.5px;line-height:1.8}
+.pc{display:flex;gap:8px}
+.pcb{flex:1;padding:10px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary)}
+.pch{font-size:11px;font-weight:500;margin-bottom:6px}
+.pci{font-size:12px;color:var(--color-text-secondary);line-height:1.55}
+@media(max-width:520px){.aw{flex-direction:column}.asb{width:100%;border-right:none;border-bottom:0.5px solid var(--color-border-tertiary)}}
+</style>
+<div class="aw">
+  <div class="asb">
+    <div class="asbh">패턴 선택</div>
+    <div id="alist"></div>
+  </div>
+  <div class="ac" id="adetail">로딩 중...</div>
+</div>
+<script>
+const P=[
+{id:'layered',name:'레이어드',en:'Layered / MVC',lv:'beginner',tag:'입문 추천',
+ desc:'가장 기본적인 구조. HTTP 요청이 Controller → Service → Repository 순으로 흐릅니다. 각 레이어는 바로 아래 레이어에만 의존하며 관심사를 명확히 분리합니다. 대부분의 웹 프레임워크가 이 구조를 기본으로 권장합니다.',
+ when:'소규모 CRUD API · 빠른 프로토타이핑 · 팀 온보딩 · 사이드 프로젝트',
+ pros:['배우기 쉽고 직관적','FastAPI·Spring·Django 등 프레임워크 친화적','초기 개발 속도 빠름'],
+ cons:['Service 비대화 (God Service) 위험','도메인 로직이 Service에 뭉침','레이어 간 결합도 높아 테스트 격리 어려움'],
+ tree:`src/
+├── controllers/       ← HTTP 요청·응답 처리
+│   ├── user_controller.py
+│   └── order_controller.py
+├── services/          ← 비즈니스 로직
+│   ├── user_service.py
+│   └── order_service.py
+├── repositories/      ← DB 접근 (SQL / ORM)
+│   └── user_repository.py
+├── models/            ← ORM 엔티티 정의
+│   └── user.py
+├── schemas/           ← 요청 / 응답 DTO
+├── middleware/        ← 인증, 로깅, 에러 핸들링
+└── config/            ← 환경변수, DB 설정
+main.py
+requirements.txt`},
+
+{id:'clean',name:'클린 아키텍처',en:'Clean Architecture',lv:'intermediate',tag:'중급',
+ desc:'Uncle Bob의 설계 원칙. 의존성 방향이 항상 안쪽(Domain)을 향합니다. 도메인이 DB·프레임워크와 완전히 분리되어 순수한 비즈니스 로직을 독립적으로 테스트할 수 있습니다.',
+ when:'복잡한 도메인 로직 · 장기 유지보수 · DB 교체 가능성 있는 프로젝트',
+ pros:['도메인이 외부와 완전히 독립','Mock 주입으로 테스트 격리 탁월','DB·프레임워크 교체 가능'],
+ cons:['보일러플레이트 코드가 많음','팀 학습 곡선 존재','소규모엔 오버엔지니어링 위험'],
+ tree:`src/
+├── domain/            ← 순수 비즈니스 규칙 (외부 의존 없음)
+│   ├── entities/      ← User, Order (순수 클래스)
+│   ├── value_objects/ ← Email, Money
+│   ├── repositories/  ← 인터페이스(추상) 정의만
+│   └── services/      ← 도메인 서비스
+│
+├── application/       ← 유스케이스 조율
+│   ├── use_cases/     ← CreateUser, PlaceOrder
+│   └── dtos/          ← 입출력 데이터 구조
+│
+├── infrastructure/    ← 외부 세계 (DB, API, 메시지)
+│   ├── database/      ← SQLAlchemy / JPA 설정
+│   ├── repositories/  ← 레포지토리 실구현체
+│   └── external/      ← 외부 API 클라이언트
+│
+└── interfaces/        ← 진입점
+    ├── api/           ← FastAPI / Express 라우터
+    └── cli/           ← CLI 명령어
+main.py`},
+
+{id:'hex',name:'헥사고날',en:'Hexagonal (Ports & Adapters)',lv:'intermediate',tag:'중급',
+ desc:'핵심 도메인을 Port(인터페이스)로 감싸고 외부 연결은 Adapter가 담당합니다. 클린 아키텍처와 유사하나 Driving(입력) / Driven(출력) 어댑터 개념을 명시적으로 분리합니다.',
+ when:'진입점이 다양한 경우 (REST + gRPC + CLI) · 외부 의존성 교체가 잦은 서비스',
+ pros:['외부 시스템 교체가 용이','Primary/Secondary 어댑터 명확 구분','테스트 격리 탁월'],
+ cons:['클린 아키텍처 수준의 복잡도','Port/Adapter 경계 설계 어려움','소규모엔 과함'],
+ tree:`src/
+├── core/              ← 육각형 안쪽 (순수 도메인)
+│   ├── domain/
+│   │   ├── models/    ← 순수 엔티티
+│   │   └── services/  ← 도메인 서비스
+│   └── ports/         ← 인터페이스 정의
+│       ├── input/     ← Driving Port (UseCase 인터페이스)
+│       └── output/    ← Driven Port (RepoPort, MsgPort)
+│
+└── adapters/          ← 육각형 바깥 (외부 연결)
+    ├── primary/       ← 앱을 구동하는 쪽 (Driving)
+    │   ├── rest_api/  ← FastAPI / Flask
+    │   └── cli/       ← CLI 진입점
+    └── secondary/     ← 앱이 호출하는 쪽 (Driven)
+        ├── database/  ← PostgreSQL 어댑터
+        └── messaging/ ← Kafka / RabbitMQ 어댑터
+main.py`},
+
+{id:'modular',name:'모듈러 모놀리스',en:'Modular Monolith',lv:'intermediate',tag:'중급',
+ desc:'단일 배포 단위지만 내부를 도메인별 모듈로 엄격히 분리합니다. 각 모듈은 자체 레이어를 갖고 이벤트·인터페이스로만 통신. 마이크로서비스 전환의 현실적인 중간 단계입니다.',
+ when:'마이크로서비스 전환을 고려 중인 중간 규모 · 팀이 도메인별로 나뉜 경우',
+ pros:['배포 단순 (단일 프로세스)','도메인 경계 명확','마이크로서비스 분리가 쉬워짐'],
+ cons:['모듈 간 경계 유지에 팀 규율 필요','공유 DB 문제는 여전히 존재'],
+ tree:`src/
+├── modules/
+│   ├── users/             ← 사용자 도메인 모듈
+│   │   ├── domain/
+│   │   ├── application/
+│   │   ├── infrastructure/
+│   │   └── api/           ← 모듈 내부 라우터
+│   │
+│   ├── orders/            ← 주문 도메인 모듈
+│   │   ├── domain/
+│   │   ├── application/
+│   │   ├── infrastructure/
+│   │   └── api/
+│   │
+│   └── payments/          ← 결제 도메인 모듈
+│       ├── domain/
+│       └── ...
+│
+└── shared/                ← 모듈 간 공유 코드
+    ├── events/            ← 도메인 이벤트 정의
+    ├── exceptions/
+    └── utils/
+main.py`},
+
+{id:'cqrs',name:'CQRS + 이벤트 소싱',en:'CQRS + Event Sourcing',lv:'advanced',tag:'고급',
+ desc:'Command(쓰기)와 Query(읽기) 모델을 완전히 분리합니다. 이벤트 소싱은 현재 상태 대신 발생한 이벤트를 저장하며, 읽기/쓰기를 독립적으로 최적화하고 완전한 감사 이력을 유지할 수 있습니다.',
+ when:'읽기/쓰기 트래픽 불균형 · 감사 로그 필수 · 복잡한 비즈니스 이벤트 처리',
+ pros:['읽기/쓰기 독립 최적화','완전한 이력 및 감사 추적','이벤트 재처리로 상태 복원 가능'],
+ cons:['복잡도 매우 높음','Eventual Consistency 처리 필수','디버깅·테스트 어려움'],
+ tree:`src/
+├── commands/              ← 쓰기 측 (Write Side)
+│   ├── handlers/          ← CreateOrderHandler
+│   ├── models/            ← Aggregate (비즈니스 규칙)
+│   └── events/            ← OrderCreated, PaymentFailed
+│
+├── queries/               ← 읽기 측 (Read Side)
+│   ├── handlers/          ← GetOrderHandler
+│   └── models/            ← 읽기 최적화 뷰 모델
+│
+├── domain/
+│   ├── aggregates/        ← Order, User Aggregate
+│   ├── events/            ← 도메인 이벤트 정의
+│   └── value_objects/
+│
+└── infrastructure/
+    ├── event_store/       ← 이벤트 저장소 (EventStoreDB)
+    ├── write_db/          ← 쓰기용 DB (PostgreSQL)
+    ├── read_db/           ← 읽기용 DB (Redis, Elasticsearch)
+    └── message_bus/       ← Kafka / RabbitMQ
+main.py`},
+
+{id:'micro',name:'마이크로서비스',en:'Microservices',lv:'advanced',tag:'고급',
+ desc:'기능별로 독립 배포 가능한 서비스로 분리합니다. 각 서비스는 자체 DB를 갖고 API Gateway를 통해 노출됩니다. 서비스 내부는 별도 아키텍처 패턴을 자유롭게 적용할 수 있습니다.',
+ when:'팀이 크고 독립 배포가 필수 · 서비스별 스케일링 필요 · 높은 가용성 요구',
+ pros:['서비스별 독립 배포·스케일링','기술 스택 자유도','장애 격리 (Fault Isolation)'],
+ cons:['운영 복잡도 급증 (K8s 필수 수준)','분산 트랜잭션 처리 어려움','네트워크 지연 증가'],
+ tree:`services/
+├── api-gateway/           ← 단일 진입점 (Kong, Nginx)
+│   └── routes.yaml
+│
+├── user-service/          ← 사용자 서비스
+│   ├── src/               ← 내부는 별도 아키텍처 적용
+│   ├── Dockerfile
+│   └── requirements.txt
+│
+├── order-service/         ← 주문 서비스
+│   ├── src/
+│   └── Dockerfile
+│
+├── payment-service/       ← 결제 서비스
+│   ├── src/
+│   └── Dockerfile
+│
+└── notification-service/  ← 알림 서비스
+    ├── src/
+    └── Dockerfile
+
+docker-compose.yml         ← 로컬 개발 환경
+k8s/                       ← 쿠버네티스 배포 설정
+├── deployments/
+└── services/`}
+];
+
+const LV={
+  beginner:{bg:'var(--color-background-info)',cl:'var(--color-text-info)'},
+  intermediate:{bg:'var(--color-background-warning)',cl:'var(--color-text-warning)'},
+  advanced:{bg:'var(--color-background-danger)',cl:'var(--color-text-danger)'}
+};
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function colorTree(tree){
+  return tree.split('\n').map(line=>{
+    if(!line.trim())return '';
+    const ai=line.indexOf('←');
+    const main=ai>=0?line.slice(0,ai):line;
+    const comment=ai>=0?line.slice(ai):'';
+    const bm=main.match(/^([│├└─\s]*)/);
+    const pfx=bm?bm[1]:'';
+    const rest=main.slice(pfx.length);
+    const isDir=rest.trim().endsWith('/');
+    const p=pfx?`<span style="color:var(--color-text-tertiary)">${esc(pfx)}</span>`:'';
+    const r=rest?`<span style="${isDir?'color:var(--color-text-info);font-weight:500':'color:var(--color-text-secondary)'}">${esc(rest)}</span>`:'';
+    const c=comment?`<span style="color:var(--color-text-tertiary);font-style:italic">${esc(comment)}</span>`:'';
+    return `${p}${r}${c}`;
+  }).join('\n');
+}
+
+function show(id){
+  const p=P.find(x=>x.id===id);if(!p)return;
+  document.querySelectorAll('.apb').forEach(b=>b.classList.toggle('active',b.dataset.id===id));
+  const lv=LV[p.lv];
+  document.getElementById('adetail').innerHTML=`
+<div class="ach">
+  <span class="act">${p.name}</span>
+  <span class="acb" style="background:${lv.bg};color:${lv.cl}">${p.tag}</span>
+</div>
+<div class="ace">${p.en}</div>
+<div class="acd">${p.desc}</div>
+<div class="acw"><span style="font-weight:500;color:var(--color-text-primary)">언제 사용?</span>&nbsp; ${p.when}</div>
+<div class="tree">${colorTree(p.tree)}</div>
+<div class="pc">
+  <div class="pcb">
+    <div class="pch" style="color:var(--color-text-success)">장점</div>
+    ${p.pros.map(x=>`<div class="pci">• ${x}</div>`).join('')}
+  </div>
+  <div class="pcb">
+    <div class="pch" style="color:var(--color-text-danger)">단점 / 주의</div>
+    ${p.cons.map(x=>`<div class="pci">• ${x}</div>`).join('')}
+  </div>
+</div>`;
+}
+
+const list=document.getElementById('alist');
+P.forEach(p=>{
+  const lv=LV[p.lv];
+  const b=document.createElement('button');
+  b.className='apb';b.dataset.id=p.id;
+  b.innerHTML=`<span class="apbn">${p.name}</span><span class="apbe">${p.en}</span><span class="apbt" style="background:${lv.bg};color:${lv.cl}">${p.tag}</span>`;
+  b.onclick=()=>show(p.id);
+  list.appendChild(b);
+});
+show('layered');
+</script>
