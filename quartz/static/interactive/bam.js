@@ -64,7 +64,8 @@ function bamColorTree(tree){
 function bamInit(){
   var list=document.getElementById('bam-list');
   var detail=document.getElementById('bam-detail');
-  if(!list||!detail)return;
+  if(!list||!detail)return false;
+  if(list.hasChildNodes())return true;
   list.innerHTML='';
   BAM_DATA.forEach(function(p){
     var lv=BAM_LV[p.lv];
@@ -78,6 +79,7 @@ function bamInit(){
     list.appendChild(b);
   });
   bamShow('layered');
+  return true;
 }
 function bamShow(id){
   var p=BAM_DATA.filter(function(x){return x.id===id})[0];
@@ -108,6 +110,18 @@ function bamShow(id){
       +'</div>'
     +'</div>';
 }
-document.addEventListener('nav',bamInit);
-bamInit();
+document.addEventListener('nav', function() {
+  requestAnimationFrame(bamInit);
+});
+
+// Direct page load: elements are above this script, so they exist immediately
+if (!bamInit()) {
+  // SPA navigation fallback: elements appear after nav fires
+  // Use MutationObserver to detect when they arrive in the DOM
+  var bamObs = new MutationObserver(function() {
+    if (bamInit()) bamObs.disconnect();
+  });
+  bamObs.observe(document.body, {childList: true, subtree: true});
+  setTimeout(function() { bamObs.disconnect(); }, 10000);
+}
 })();
