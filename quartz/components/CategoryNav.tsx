@@ -43,11 +43,11 @@ CategoryNav.css = `
   display: block;
   padding: 0.75rem 1rem;
   background-color: rgba(52, 152, 219, 0.1);
-  color: var(--secondary);
+  color: white;
   border-radius: 6px;
   font-weight: 500;
   transition: all 0.2s ease;
-  border: 1px solid var(--secondary);
+  border: 1px solid white;
   text-decoration: none;
 }
 
