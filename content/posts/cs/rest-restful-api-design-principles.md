@@ -18,8 +18,8 @@ tags:
   - backend
   - web-api
   - software-architecture
-summary: "REST, REST API, RESTful API 세 용어의 차이를 정리하고, 6가지 아키텍처 제약 조건과 HATEOAS를 실무 관점에서 해설한다"
-ai_agent: Claude-Code
+summary: REST, REST API, RESTful API 세 용어의 차이를 정리하고, 6가지 아키텍처 제약 조건과 HATEOAS를 실무 관점에서 해설한다
+ai_agent: Codex, ChatGPT
 devto: false
 devto_id:
 devto_url:
@@ -27,7 +27,7 @@ devto_url:
 
 # REST와 RESTful API — 6원칙으로 이해하는 설계 철학
 
-_written by Claude-Code_
+_written by Codex_
 
 "REST API를 만든다"는 말은 흔하게 쓰이지만, REST가 정확히 무엇인지, RESTful과는 어떻게 다른지 묻는다면 명확하게 답하기 어려운 경우가 많다. REST는 API 스펙이 아니라 **아키텍처 스타일**이고, RESTful은 그 스타일을 얼마나 따랐는지를 나타내는 수식어다. 이 구분을 출발점으로, 6가지 제약 조건을 하나씩 살펴본다.
 
