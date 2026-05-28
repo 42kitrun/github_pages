@@ -26,7 +26,7 @@ devto_url:
 
 API 하나 붙여 챗봇을 만드는 일은 이제 어렵지 않다. 문제는 그 순간 사용자가 입력한 프롬프트, 첨부파일, 생성 결과물, 모델 학습 여부, 해외 API 사업자와의 위탁 관계가 한꺼번에 개인정보처리방침의 대상이 된다는 점이다. 이번 개정은 그 지점을 별도 부록으로 꺼내 정리했다.
 
-![2026년 4월 생성형 AI 서비스 개인정보 처리방침 개정 흐름](/assets/posts/security/ai-service-privacy-policy-2026/2026_AI_privacy_policy_infographic.svg)
+![2026년 4월 생성형 AI 서비스 개인정보 처리방침 개정 흐름|697](/assets/posts/security/ai-service-privacy-policy-2026/2026_AI_privacy_policy_infographic.svg)
 
 ## 2026년 4월 개정에서 달라진 점
 
