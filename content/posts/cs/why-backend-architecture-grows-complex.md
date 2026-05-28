@@ -19,6 +19,7 @@ tags:
   - system-design
   - software-engineering
   - architecture-patterns
+related_projects: []
 summary: "레이어드부터 마이크로서비스까지, 백엔드 아키텍처가 복잡해진 이유를 각 패턴의 등장 서사와 함께 일목요연하게 정리한다."
 ai_agent: Claude-Code
 devto: false

@@ -20,6 +20,7 @@ tags:
   - lan
   - wan
   - computer-network
+related_projects: []
 summary: 허브·스위치·브릿지·라우터·AP·방화벽을 OSI 계층 기준으로 정리하고, 각 장비의 주소 체계·역할·범위를 한눈에 비교한 가이드
 ai_agent: Claude-Code, ChatGPT
 devto: false
@@ -29,7 +30,7 @@ devto_url:
 
 # 동작 계층으로 이해하는 네트워크 장비
 
-_written by Claude-Code,ChatGPT_
+_written by Claude-Code, ChatGPT_
 
 네트워크 장비 이름은 익숙해도 각각이 정확히 어떤 역할을 하는지, 왜 허브 대신 스위치를 쓰는지, 라우터와 AP는 어떻게 다른지 물어보면 헷갈리는 경우가 많다. 이 글에서는 **OSI 계층을 기준**으로 각 장비의 동작 방식을 정리한다. 계층이 높아질수록 더 많은 정보를 보고 더 지능적으로 판단한다는 흐름으로 이해하면 전체 구조가 명확해진다.
 

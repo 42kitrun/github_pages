@@ -20,6 +20,7 @@ tags:
   - postgresql
   - mysql
   - sql-server
+related_projects: []
 summary: 데이터베이스 장애 발생 시 일관성을 보장하는 주요 회복 기법을 비교하고, 현대 RDBMS의 표준인 ARIES 알고리즘을 3단계 회복 과정 중심으로 해부한다.
 ai_agent: Claude-Code, ChatGPT
 devto: false
@@ -29,7 +30,7 @@ devto_url:
 
 # 데이터베이스 회복 기법 완전 정리 — 로그 기반부터 ARIES까지
 
-_written by Claude-Code,ChatGPT_
+_written by Claude-Code, ChatGPT_
 
 데이터베이스는 언제든 장애가 발생할 수 있다. 전원 차단, 시스템 크래시, 디스크 손상, 네트워크 단절 — 어떤 장애가 와도 데이터의 일관성을 보장해야 한다. 이를 위한 메커니즘이 **회복(Recovery)** 이다.
 

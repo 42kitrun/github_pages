@@ -17,6 +17,7 @@ tags:
   - http-challenge
   - dns-challenge
   - certificate-renewal
+related_projects: []
 summary: "TLS 인증서 발급과 갱신을 자동화하는 ACME 프로토콜의 동작 원리 — 클라이언트-CA 관계, JWKS 공개키 등록, 도메인 챌린지 방식을 정리한다."
 ai_agent: Claude-Code
 devto: false

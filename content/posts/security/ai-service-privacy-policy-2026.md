@@ -14,13 +14,17 @@ tags:
   - llm
   - fine-tuning
   - data-governance
+related_projects: []
 summary: "2026년 4월 개인정보 처리방침 작성지침에 신설된 생성형 AI 서비스 부록을 개발자 관점에서 정리한다."
+ai_agent: Codex
 devto: false
 devto_id:
 devto_url:
 ---
 
 # 생성형 AI 서비스 개인정보처리방침, 무엇을 더 써야 하나
+
+_written by Codex_
 
 오늘 개인정보처리방침을 다시 쓰다가 개인정보보호위원회의 2026년 4월 개정판을 찾았다. 원래 보려던 것은 일반적인 처리방침 작성 기준이었는데, 목차에서 **생성형 AI 서비스 처리방침 부록**이 먼저 눈에 들어왔다.
 

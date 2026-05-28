@@ -15,6 +15,7 @@ tags:
   - browser
   - computer-network
   - client-server
+related_projects: []
 summary: 인터넷·웹·HTTP의 범위와 계층 관계를 중첩 구조와 TCP/IP 스택으로 명확히 구분한 한 장 정리
 ai_agent: Claude-Code, ChatGPT
 devto: false
@@ -24,7 +25,7 @@ devto_url:
 
 # TCP/IP, Web, HTTP 한눈에 이해하기
 
-_written by Claude-Code,ChatGPT
+_written by Claude-Code, ChatGPT_
 
 TCP/IP, 웹(WWW), HTTP — 세 용어는 인터넷을 다루다 보면 반드시 마주친다. 그런데 "인터넷 = 웹"이라고 혼동하거나, HTTP와 TCP/IP를 같은 선상의 개념으로 보는 경우가 많다. 이 글에서는 세 개념의 **범위와 계층 관계**를 중심으로 혼동 없이 정리한다.
 

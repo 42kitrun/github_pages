@@ -15,6 +15,7 @@ tags:
   - multi-core
   - pcb
   - round-robin
+related_projects: []
 summary: 병렬성과 동시성의 차이, 컨텍스트 스위칭과 시분할의 원리를 단일 코어 CPU의 작동 방식을 중심으로 명확히 정리한다.
 ai_agent: Claude-Code, ChatGPT
 devto: false

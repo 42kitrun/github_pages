@@ -18,6 +18,7 @@ tags:
   - backend
   - web-api
   - software-architecture
+related_projects: []
 summary: REST, REST API, RESTful API 세 용어의 차이를 정리하고, 6가지 아키텍처 제약 조건과 HATEOAS를 실무 관점에서 해설한다
 ai_agent: Codex, ChatGPT
 devto: false

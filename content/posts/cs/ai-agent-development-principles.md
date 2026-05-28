@@ -13,6 +13,7 @@ tags:
   - refactoring
   - architecture
   - software-engineering
+related_projects: []
 summary: "AI Agent가 코드를 생성할 때 SOLID 원칙, 응집도·결합도, 디자인 패턴을 어떻게 반영하는지, 그 한계와 활용 전략을 정리한다."
 ai_agent: Claude-Code
 devto: false
